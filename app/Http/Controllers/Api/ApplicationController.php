@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
-    // Candidate: التقديم على وظيفة
+    
     public function apply(Request $request, JobListing $job)
     {
         $data = $request->validate([
@@ -37,7 +37,7 @@ class ApplicationController extends Controller
         return response()->json($application, 201);
     }
 
-    // Candidate: تقديماتي
+
     public function myApplications(Request $request)
     {
         return JobApplication::with('job.company')
@@ -46,7 +46,7 @@ class ApplicationController extends Controller
             ->get();
     }
 
-    // Employer: المتقدمين على وظيفة تخصه
+    
     public function jobApplications(Request $request, JobListing $job)
     {
         if ($job->company_id !== $request->user()->company->id) {
@@ -56,7 +56,6 @@ class ApplicationController extends Controller
         return $job->applications()->with('user:id,name,email')->latest()->get();
     }
 
-    // Employer: تغيير حالة الطلب
     public function updateStatus(Request $request, JobApplication $application)
     {
         $companyId = $application->job->company_id;
